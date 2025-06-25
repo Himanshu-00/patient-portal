@@ -6,6 +6,7 @@ import (
 	"patient-portal/controllers"
 	"patient-portal/db"
 	_ "patient-portal/docs"
+	"patient-portal/middlewares"
 	"patient-portal/models"
 	"patient-portal/repositories"
 	"patient-portal/routes"
@@ -99,6 +100,8 @@ func main() {
 
 	// Setup routes
 	router := routes.SetupRouter(authCtrl, patientCtrl)
+	// Add CORS middleware HERE
+	router.Use(middlewares.CORSMiddleware())
 
 	// Start server
 	log.Println("🚀 Server starting on :8080")
