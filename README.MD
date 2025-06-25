@@ -26,7 +26,7 @@ This is health-portal project. it has apis written in golang along with support 
     └── database.go
 ```
 
-## ✅ Features
+## Features
 
 - RESTful APIs in Go
 - JWT Authentication
@@ -43,31 +43,33 @@ go mod download
 go run main.go
 ```
 
-## To Test APIS - 
-- ### Open - index.html and update api endpoint to localhost:8080
+---
 
-## Dependencies
-### Gin — Web framework for Go
-### pq — PostgreSQL driver
-### godotenv — .env loader
-### gorm — ORM for Go
-### jwt-go — JWT support
+## To Test APIs - 
+```
+- Open - index.html and update api endpoint to localhost:8080
+- Dependencies
+- Gin — Web framework for Go
+- pq — PostgreSQL driver
+- godotenv — .env loader
+- gorm — ORM for Go
+- jwt-go — JWT support
 
+```
 
 
 
 ## 🧪 How to Test APIs
-### Open the index.html file in your browser (Swagger UI or custom tester).
 ```
+Open the index.html file in your browser (Swagger UI or custom tester).
+
 Replace the API_BASE_URL with:
 http://localhost:8080
-```
-```
-Use available endpoints to test: Example:
 
-bash
-Copy
-Edit
+```
+
+## Use available endpoints to test: Example:
+```
 POST   /signup
 POST   /login
 GET    /patients
