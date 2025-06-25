@@ -413,20 +413,6 @@
             .patient-actions {
                 justify-content: center;
             }
-
-            .spinner {
-                border: 3px solid #f3f3f3;
-                border-top: 3px solid #3498db;
-                border-radius: 50%;
-                width: 20px;
-                height: 20px;
-                animation: spin 1s linear infinite;
-            }
-
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
         }
     </style>
 </head>
@@ -561,105 +547,12 @@
         </div>
     </div>
 
-    <!-- Add these anywhere in your body -->
-    <div id="apiHealthLoader" style="display:none; position:fixed; top:20px; right:20px; z-index:1000;">
-        <div style="display:flex; align-items:center; background:#fff; padding:10px; border-radius:5px; box-shadow:0 2px 10px rgba(0,0,0,0.1);">
-            <div class="spinner"></div>
-            <span style="margin-left:10px;">Waking up server...</span>
-        </div>
-    </div>
-
-    <div id="apiHealthError" style="display:none; position:fixed; top:20px; right:20px; background:#ffebee; color:#b71c1c; padding:15px; border-radius:5px; z-index:1000; max-width:300px;">
-        <strong>Server Unavailable</strong>
-        <p>API server is sleeping. Trying to wake it up...</p>
-        <div id="retryInfo" style="font-size:0.8em; margin-top:5px;"></div>
-        <button id="retryButton" onclick="retryAPIConnection()" style="display:none; margin-top:10px; padding:5px 10px; background:#b71c1c; color:white; border:none; border-radius:3px;">Retry Now</button>
-    </div>
-
     <script>
         // Configuration
         const API_BASE_URL = 'https://patient-portal-x92o.onrender.com';
-        const MAX_RETRIES = 5; // Max retry attempts
-        const INITIAL_DELAY = 2000; // Initial retry delay in ms (2 seconds)
-        const RETRY_BACKOFF_FACTOR = 2; // Exponential backoff factor
-        let retryCount = 0;
-        let currentDelay = INITIAL_DELAY;
-
         let authToken = localStorage.getItem('authToken');
         let userRole = localStorage.getItem('userRole');
         let currentPatientId = null;
-
-
-        // Initialize app with health check
-        document.addEventListener('DOMContentLoaded', function() {
-            checkAPIHealth().then(() => {
-                if (authToken && userRole) {
-                    showDashboard();
-                    loadPatients();
-                } else {
-                    showLogin();
-                }
-            }).catch(() => {
-                showAPIError();
-            });
-        });
-
-        // Health check function with retry logic
-        async function checkAPIHealth() {
-            showAPILoader(true);
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}/health`);
-                if (response.ok) {
-                    retryCount = 0;
-                    currentDelay = INITIAL_DELAY;
-                    showAPILoader(false);
-                    return Promise.resolve();
-                }
-                throw new Error('API not responding');
-            } catch (error) {
-                if (retryCount < MAX_RETRIES) {
-                    retryCount++;
-                    currentDelay *= RETRY_BACKOFF_FACTOR;
-                    
-                    await new Promise(resolve => setTimeout(resolve, currentDelay));
-                    return checkAPIHealth();
-                }
-                showAPILoader(false);
-                return Promise.reject();
-            }
-        }
-
-        // Show API loader
-        function showAPILoader(show) {
-            const loader = document.getElementById('apiHealthLoader');
-            const retryInfo = document.getElementById('retryInfo');
-            
-            if (show) {
-                loader.style.display = 'block';
-                retryInfo.textContent = `Attempt ${retryCount + 1}/${MAX_RETRIES} (Retrying in ${currentDelay/1000}s...)`;
-                retryInfo.style.display = 'block';
-            } else {
-                loader.style.display = 'none';
-                retryInfo.style.display = 'none';
-            }
-        }
-
-        // Show API error message
-        function showAPIError() {
-            document.getElementById('apiHealthError').style.display = 'block';
-            document.getElementById('retryButton').style.display = 'block';
-        }
-
-        // Retry API connection
-        function retryAPIConnection() {
-            document.getElementById('apiHealthError').style.display = 'none';
-            document.getElementById('retryButton').style.display = 'none';
-            checkAPIHealth().then(() => {
-                if (authToken && userRole) showDashboard();
-                else showLogin();
-            }).catch(showAPIError);
-        }
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
@@ -674,14 +567,6 @@
         // Login functionality
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-
-            // First check API health
-            try {
-                await checkAPIHealth();
-            } catch {
-                showError('loginError', 'API server is unavailable. Please try again later.');
-                return;
-            }
             
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
@@ -717,25 +602,12 @@
             }
         });
 
-        // Add health check to all API calls
-        async function safeAPICall(apiCall) {
-            try {
-                await checkAPIHealth();
-                return await apiCall();
-            } catch {
-                showAPIError();
-                throw new Error('API unavailable');
-            }
-        }
-
-
         // Logout functionality
         function logout() {
             localStorage.removeItem('authToken');
             localStorage.removeItem('userRole');
             authToken = null;
             userRole = null;
-            document.getElementById('apiHealthError').style.display = 'none';
             showLogin();
         }
 
