@@ -61,7 +61,7 @@ go run main.go
 
 ## 🧪 How to Test APIs
 ```
-Open the index.html file in your browser (Swagger UI or custom tester).
+Open the index.html file in your browser.
 
 Replace the API_BASE_URL with:
 http://localhost:8080
