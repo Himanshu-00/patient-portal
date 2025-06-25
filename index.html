@@ -413,6 +413,20 @@
             .patient-actions {
                 justify-content: center;
             }
+
+            .spinner {
+                border: 3px solid #f3f3f3;
+                border-top: 3px solid #3498db;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
         }
     </style>
 </head>
@@ -545,6 +559,21 @@
             </form>
             <div id="medicalNotesError" class="alert alert-error" style="display: none;"></div>
         </div>
+    </div>
+
+    <!-- Add these anywhere in your body -->
+    <div id="apiHealthLoader" style="display:none; position:fixed; top:20px; right:20px; z-index:1000;">
+        <div style="display:flex; align-items:center; background:#fff; padding:10px; border-radius:5px; box-shadow:0 2px 10px rgba(0,0,0,0.1);">
+            <div class="spinner"></div>
+            <span style="margin-left:10px;">Waking up server...</span>
+        </div>
+    </div>
+
+    <div id="apiHealthError" style="display:none; position:fixed; top:20px; right:20px; background:#ffebee; color:#b71c1c; padding:15px; border-radius:5px; z-index:1000; max-width:300px;">
+        <strong>Server Unavailable</strong>
+        <p>API server is sleeping. Trying to wake it up...</p>
+        <div id="retryInfo" style="font-size:0.8em; margin-top:5px;"></div>
+        <button id="retryButton" onclick="retryAPIConnection()" style="display:none; margin-top:10px; padding:5px 10px; background:#b71c1c; color:white; border:none; border-radius:3px;">Retry Now</button>
     </div>
 
     <script>
