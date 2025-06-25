@@ -3,7 +3,7 @@ This is health-portal project. it has apis written in golang along with support 
 
 
 ## Project Structure
-""" ├── main.go
+''' ├── main.go
 ├── go.mod
 ├── .env
 ├── config/
@@ -23,7 +23,7 @@ This is health-portal project. it has apis written in golang along with support 
 │   └── utils.go
 └── db/
     └── database.go
-"""
+'''
 
 ## ✅ Features
 
