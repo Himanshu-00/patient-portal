@@ -38,10 +38,10 @@ This is health-portal project. it has apis written in golang along with support 
 ---
 
 ## Install dependencies and run:
-"""
+```
 go mod download
 go run main.go
-"""
+```
 
 ## To Test APIS - 
 - ### Open - index.html and update api endpoint to localhost:8080
@@ -56,15 +56,14 @@ go run main.go
 
 
 
-### 🧪 How to Test APIs
-## Open the index.html file in your browser (Swagger UI or custom tester).
-"""
+## 🧪 How to Test APIs
+### Open the index.html file in your browser (Swagger UI or custom tester).
+```
 Replace the API_BASE_URL with:
 http://localhost:8080
-
-Use available endpoints to test:
-
-Example:
+```
+```
+Use available endpoints to test: Example:
 
 bash
 Copy
@@ -75,4 +74,5 @@ GET    /patients
 POST   /patients
 PUT    /patients/:id
 DELETE /patients/:id
-"""
+
+```
