@@ -27,14 +27,14 @@ This is health-portal project. it has apis written in golang along with support 
 ```
 
 ## Features
-
+```
 - RESTful APIs in Go
 - JWT Authentication
 - Full CRUD for Patient Data
 - PostgreSQL Database Integration
 - Swagger (via static `index.html`) for API Testing
 - Clean MVC + Repository pattern
-
+```
 ---
 
 ## Install dependencies and run:
